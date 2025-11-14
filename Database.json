@@ -1,0 +1,13 @@
+{
+  "users": {
+    "sampleUserId123": {
+      "email": "user@example.com",
+      "displayName": "Sample User",
+      "watchlist": {
+        "bitcoin": "bitcoin",
+        "ethereum": "ethereum",
+        "cardano": "cardano"
+      }
+    }
+  }
+}

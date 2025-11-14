@@ -1,0 +1,26 @@
+# Android
+*.apk
+*.aar
+*.o
+*.so
+
+# Gradle
+.gradle/
+build/
+
+# IDE
+.idea/
+.vscode/
+
+# Firebase
+**/google-services.json
+
+# Local properties
+local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
