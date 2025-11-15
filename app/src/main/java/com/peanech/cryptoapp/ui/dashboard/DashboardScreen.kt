@@ -68,7 +68,7 @@ fun DashboardScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "CryptoTracker",
+                        "Crypto App",
                         style = MaterialTheme.typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )

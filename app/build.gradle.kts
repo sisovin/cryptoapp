@@ -115,6 +115,14 @@ dependencies {
     // Coil
     implementation(libs.io.coil.kt.coil.compose)
 
+    // Networking
+    implementation(libs.com.squareup.retrofit2)
+    implementation(libs.com.squareup.retrofit2.converter.moshi)
+    implementation(libs.com.squareup.okhttp3.logging.interceptor)
+
+    // JSON
+    implementation(libs.com.squareup.moshi.kotlin)
+
     // Modules
     implementation(project(":domain"))
     // implementation(project(":data"))

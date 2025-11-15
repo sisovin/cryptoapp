@@ -3,8 +3,11 @@ package com.peanech.cryptoapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peanech.cryptoapp.domain.MarketCoin
+import com.peanech.cryptoapp.network.ApiClient
+import com.peanech.cryptoapp.network.toMarketCoin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 data class DashboardState(
     val isLoading: Boolean = false,
@@ -18,38 +21,38 @@ data class DashboardState(
 
 class DashboardViewModel() : ViewModel() {
 
-    private val _state = MutableStateFlow(DashboardState(isLoading = false, coins = listOf(
-        MarketCoin(
-            id = "bitcoin",
-            symbol = "btc",
-            name = "Bitcoin",
-            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-            currentPrice = 45000.0,
-            marketCap = 850000000000.0,
-            change24hPct = 2.27,
-            high24h = 46000.0,
-            low24h = 44000.0
-        ),
-        MarketCoin(
-            id = "ethereum",
-            symbol = "eth",
-            name = "Ethereum",
-            imageUrl = "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-            currentPrice = 2500.0,
-            marketCap = 300000000000.0,
-            change24hPct = 2.04,
-            high24h = 2600.0,
-            low24h = 2400.0
-        )
-    )))
+    private val _state = MutableStateFlow(DashboardState(isLoading = true))
     val state: StateFlow<DashboardState> = _state
 
     init {
-        // No-op for now
+        loadCoins()
+    }
+
+    private fun loadCoins() {
+        viewModelScope.launch {
+            try {
+                val apiCoins = ApiClient.coinGeckoApi.getMarkets(
+                    currency = _state.value.currency,
+                    page = _state.value.page,
+                    perPage = 50
+                )
+                val coins = apiCoins.map { it.toMarketCoin() }
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    coins = coins,
+                    error = null
+                )
+            } catch (e: Exception) {
+                _state.value = _state.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Failed to load coins"
+                )
+            }
+        }
     }
 
     fun onSearch(query: String) {
-        // TODO: Implement search
+        _state.value = _state.value.copy(query = query)
     }
 
     fun onPaginate() {
@@ -57,7 +60,8 @@ class DashboardViewModel() : ViewModel() {
     }
 
     fun onRefresh() {
-        // TODO: Implement refresh
+        _state.value = _state.value.copy(isLoading = true, error = null)
+        loadCoins()
     }
 
     fun onToggleWatch(coinId: String) {
