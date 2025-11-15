@@ -31,15 +31,7 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF1E3A8A), // Dark blue
-                        Color(0xFF3B82F6), // Blue
-                        Color(0xFF1E40AF)  // Darker blue
-                    )
-                )
-            ),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -54,7 +46,7 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
                 imageVector = Icons.Default.KeyboardArrowUp,
                 contentDescription = "Crypto App Logo",
                 modifier = Modifier.size(80.dp),
-                tint = Color.White
+                tint = Color(0xFF009688) // Teal accent color
             )
 
             // Welcome Text
@@ -65,7 +57,7 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
                 Text(
                     text = "Welcome to",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = Color.White.copy(alpha = 0.8f),
+                    color = Color.Black.copy(alpha = 0.8f),
                     textAlign = TextAlign.Center
                 )
                 Text(
@@ -73,13 +65,13 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    color = Color.White,
+                    color = Color.Black,
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = "Track your favorite cryptocurrencies\nin real-time",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = Color.White.copy(alpha = 0.7f),
+                    color = Color.Black.copy(alpha = 0.7f),
                     textAlign = TextAlign.Center,
                     lineHeight = 24.sp
                 )
@@ -93,8 +85,8 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
                     .padding(horizontal = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color(0xFF1E3A8A)
+                    containerColor = Color(0xFF009688), // Teal
+                    contentColor = Color.White
                 ),
                 elevation = ButtonDefaults.buttonElevation(
                     defaultElevation = 8.dp,
@@ -114,7 +106,7 @@ fun AuthScreen(onAuthSuccess: () -> Unit) {
             Text(
                 text = "(Mock Authentication)",
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.5f),
+                color = Color.Black.copy(alpha = 0.5f),
                 textAlign = TextAlign.Center
             )
         }

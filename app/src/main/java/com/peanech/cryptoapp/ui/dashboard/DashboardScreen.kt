@@ -153,7 +153,7 @@ fun PortfolioSummaryCard() {
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF1E3A8A)
+            containerColor = Color(0xFF009688) // Teal background
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
