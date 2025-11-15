@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.peanech.cryptoapp.domain.MarketCoin
 import com.peanech.cryptoapp.domain.MarketRepository
 import com.peanech.cryptoapp.domain.UserRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -21,7 +20,6 @@ data class DashboardState(
     val error: String? = null
 )
 
-@HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val marketRepo: MarketRepository,
     private val userRepo: UserRepository
@@ -41,7 +39,9 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch { fetchPage(nextPage, append = true) }
     }
 
-    fun onRefresh() = viewModelScope.launch { fetchPage(1, append = false) }
+    fun onRefresh() {
+        viewModelScope.launch { fetchPage(1, append = false) }
+    }
 
     fun onToggleWatch(coinId: String) = viewModelScope.launch {
         val uid = userRepo.currentUser()?.uid ?: return@launch

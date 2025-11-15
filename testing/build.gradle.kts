@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.peanech.cryptoapp.testing"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -18,6 +18,9 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        create("upload") {
+            matchingFallbacks.add("release")
         }
     }
 

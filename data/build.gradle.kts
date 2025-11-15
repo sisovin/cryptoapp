@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.peanech.cryptoapp.data"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -21,6 +21,9 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        create("upload") {
+            matchingFallbacks.add("release")
+        }
     }
 
     compileOptions {
@@ -31,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 dependencies {
@@ -65,9 +72,4 @@ dependencies {
 
     // Domain
     implementation(project(":domain"))
-
-    // Testing
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
