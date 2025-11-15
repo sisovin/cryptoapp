@@ -3,12 +3,8 @@ package com.peanech.cryptoapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peanech.cryptoapp.domain.MarketCoin
-import com.peanech.cryptoapp.domain.MarketRepository
-import com.peanech.cryptoapp.domain.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class DashboardState(
     val isLoading: Boolean = false,
@@ -20,54 +16,51 @@ data class DashboardState(
     val error: String? = null
 )
 
-class DashboardViewModel @Inject constructor(
-    private val marketRepo: MarketRepository,
-    private val userRepo: UserRepository
-) : ViewModel() {
+class DashboardViewModel() : ViewModel() {
 
-    private val _state = MutableStateFlow(DashboardState(isLoading = true))
+    private val _state = MutableStateFlow(DashboardState(isLoading = false, coins = listOf(
+        MarketCoin(
+            id = "bitcoin",
+            symbol = "btc",
+            name = "Bitcoin",
+            imageUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+            currentPrice = 45000.0,
+            marketCap = 850000000000.0,
+            change24hPct = 2.27,
+            high24h = 46000.0,
+            low24h = 44000.0
+        ),
+        MarketCoin(
+            id = "ethereum",
+            symbol = "eth",
+            name = "Ethereum",
+            imageUrl = "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+            currentPrice = 2500.0,
+            marketCap = 300000000000.0,
+            change24hPct = 2.04,
+            high24h = 2600.0,
+            low24h = 2400.0
+        )
+    )))
     val state: StateFlow<DashboardState> = _state
 
-    init { loadInitial() }
+    init {
+        // No-op for now
+    }
 
     fun onSearch(query: String) {
-        _state.value = _state.value.copy(query = query)
+        // TODO: Implement search
     }
 
     fun onPaginate() {
-        val nextPage = _state.value.page + 1
-        viewModelScope.launch { fetchPage(nextPage, append = true) }
+        // TODO: Implement pagination
     }
 
     fun onRefresh() {
-        viewModelScope.launch { fetchPage(1, append = false) }
+        // TODO: Implement refresh
     }
 
-    fun onToggleWatch(coinId: String) = viewModelScope.launch {
-        val uid = userRepo.currentUser()?.uid ?: return@launch
-        val watchlist = userRepo.getWatchlist(uid)
-        if (coinId in watchlist) userRepo.removeFromWatchlist(uid, coinId)
-        else userRepo.addToWatchlist(uid, coinId)
-        _state.value = _state.value.copy(watchlist = userRepo.getWatchlist(uid))
-    }
-
-    private fun loadInitial() = viewModelScope.launch {
-        val uid = userRepo.currentUser()?.uid
-        val watch = if (uid != null) userRepo.getWatchlist(uid) else emptySet()
-        _state.value = _state.value.copy(watchlist = watch)
-        fetchPage(1, append = false)
-    }
-
-    private suspend fun fetchPage(page: Int, append: Boolean) {
-        _state.value = _state.value.copy(isLoading = true, error = null)
-        runCatching { marketRepo.getMarkets(page, 50, _state.value.currency) }
-            .onSuccess { data ->
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    page = page,
-                    coins = if (append) _state.value.coins + data else data
-                )
-            }
-            .onFailure { e -> _state.value = _state.value.copy(isLoading = false, error = e.message) }
+    fun onToggleWatch(coinId: String) {
+        // TODO: Implement watchlist toggle
     }
 }

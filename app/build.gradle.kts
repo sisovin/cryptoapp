@@ -117,7 +117,7 @@ dependencies {
 
     // Modules
     implementation(project(":domain"))
-    implementation(project(":data"))
+    // implementation(project(":data"))
     implementation(project(":core-ui"))
     implementation(project(":testing"))
 

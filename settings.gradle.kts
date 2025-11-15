@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "cryptoapp"
-include(":app", ":data", ":domain", ":core-ui", ":testing")
+include(":app", ":domain", ":core-ui", ":testing")
